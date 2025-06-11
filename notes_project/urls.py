@@ -17,9 +17,18 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from notes.forms import CustomLoginForm  # Make sure 'notes' is your app name
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('notes.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),  # for login/logout
+    path('', include('notes.urls')),  # assuming your app is "notes"
+    path('accounts/login/', auth_views.LoginView.as_view(
+        template_name='registration/login.html',
+        authentication_form=CustomLoginForm  # Use your custom form here
+    ), name='login'),
 ]
 

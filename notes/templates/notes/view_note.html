@@ -1,11 +1,26 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Srijan Notes App{% endblock %}
+
 {% block content %}
-<div class="card mt-4">
-  <div class="card-body">
-    <h2 class="card-title">{{ note.title }}</h2>
-    <p class="text-muted">{{ note.created_at|date:"F j, Y, g:i a" }}</p>
-    <p class="card-text mt-4">{{ note.content }}</p>
-    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">← Back to Notes</a>
-  </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0">Srijan Notes App</h2>
+  <a href="{% url 'create_note' %}" class="btn btn-success">+ Create Note</a>
 </div>
+
+{% for note in notes %}
+  <div class="card note-card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ note.title }}</h5>
+      <p class="card-text">{{ note.content|truncatechars:150 }}</p>
+      <div class="d-flex gap-2">
+        <a href="{% url 'view_note' note.id %}" class="btn btn-primary btn-sm">View</a>
+        <a href="{% url 'edit_note' note.id %}" class="btn btn-secondary btn-sm">Edit</a>
+        <a href="{% url 'delete_note' note.id %}" class="btn btn-danger btn-sm">Delete</a>
+      </div>
+    </div>
+  </div>
+{% empty %}
+  <p>No notes found.</p>
+{% endfor %}
 {% endblock %}
