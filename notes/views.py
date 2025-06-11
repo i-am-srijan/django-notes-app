@@ -26,3 +26,7 @@ def delete_note(request, note_id):
     note = get_object_or_404(Note, id=note_id)
     note.delete()
     return redirect('home')
+
+def view_note(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+    return render(request, 'notes/view_note.html', {'note': note})
